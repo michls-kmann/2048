@@ -26,6 +26,8 @@ public class Spiel implements KeyListener {
 
 	private void start() {
 		setUpBoard();
+		xsend.form2(Kacheln.getKachel().x, Kacheln.getKachel().y,Kacheln.getKachel().form);
+		xsend.farbe2(Kacheln.getKachel().x, Kacheln.getKachel().y,Kacheln.getKachel().farbe);
 	}
 
 	private void setUpBoard() {
@@ -35,12 +37,11 @@ public class Spiel implements KeyListener {
 		
 		xsend.flaeche(XSendAdapter.WHITE);
 		xsend.groesse(size, size);
-		xsend.formen("s");
+		xsend.formen("c");
 		
-		setUpBoardGui();
+		//setUpBoardGui();
 	}
-	
-
+	/*
 	public void setUpBoardGui() {
 		graphic = board.getGraphic();
 		xsend = new XSendAdapter(board);
@@ -56,7 +57,7 @@ public class Spiel implements KeyListener {
 		});
 	}
 
-
+*/
 	
 
 	@Override
