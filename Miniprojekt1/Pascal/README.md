@@ -1,5 +1,6 @@
-Erweiterungen:
+Aktueller Spielstand
 
-- BoSym-Board verschönert
+Erweiterungen:
+- BoSym-Board / Farben / Kacheln verschönert
 - Farben für alle Kachel-Werte definiert
-- zwei Kacheln werden zu Beginn zufällig auf dem Spielfeld erzeugt (2 mit 90%, 4 mit 10%)
+- zwei Kacheln werden zufällig auf dem Spielfeld erzeugt (2 mit 90%, 4 mit 10%)
