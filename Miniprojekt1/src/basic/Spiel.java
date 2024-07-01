@@ -6,6 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import jserver.Board;
 import jserver.XSendAdapter;
@@ -16,7 +19,9 @@ public class Spiel implements KeyListener {
     private XSendAdapter xsend = new XSendAdapter(board);
     private int groesse = 4;  
     private Kacheln[][] kacheln = new Kacheln[groesse][groesse]; // Array zum Speichern der Kacheln
-	private Graphic graphic;
+   	private Graphic graphic;
+  	int andereFarben[] = {XSendAdapter.LIME, XSendAdapter.RED, XSendAdapter.AQUA, XSendAdapter.BLUEVIOLET, 0xf67c5f, 0xf65e3b, 0xedcf72, 0xedcc61, 0xeac64e, 0xecc441, 0xeec22e};
+	
     
 
     public static void main(String[] args) {
@@ -27,8 +32,7 @@ public class Spiel implements KeyListener {
     	
     		
         	baueSpielfeld();
-        	
-    		
+        	    		
         }
   
       
@@ -39,16 +43,61 @@ public class Spiel implements KeyListener {
         board.getPlotter().setFocusable(true);
         board.getPlotter().requestFocusInWindow();
         xsend.flaeche(0xbbada0); 
+        xsend.rahmen(XSendAdapter.BLACK);
         xsend.groesse(groesse, groesse); 
         xsend.symbolGroessen(0.46);
         xsend.statusText("2048");
         board.receiveMessage(">>fontsize 45");
         board.receiveMessage(">>fonttype Arial Bold");
+        setGui();
         initialisiereKacheln();
         
     }
     
-
+		void setGui() {
+						
+			graphic= board.getGraphic();
+			JButton resetButton=new JButton("RESET");
+			graphic.addSouthComponent(resetButton);
+			
+			resetButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					initialisiereKacheln();
+					board.getPlotter().requestFocusInWindow();
+					
+				}
+			});
+			
+			JButton farbeButton = new JButton("UMFAERBEN");
+			graphic.addSouthComponent(farbeButton);
+			
+			farbeButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					xsend.flaeche(000000);
+					xsend.rahmen(XSendAdapter.DARKGRAY);
+					board.getPlotter().requestFocusInWindow();
+					
+				}
+			});
+			
+			JMenu spielregelnMenue = new JMenu("Spielregeln");
+			graphic.addExternMenu(spielregelnMenue);
+			JMenuItem text = new JMenuItem("Schiebe die Kacheln zusammen bis du eine mit 2048 hast");
+			spielregelnMenue.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+			}
+			});
+			spielregelnMenue.add(text);
+			
+	}
+		
+	    
     public void initialisiereKacheln() {
         for (int i = 0; i < groesse; i++) {
             for (int j = 0; j < groesse; j++) {
@@ -79,7 +128,7 @@ public class Spiel implements KeyListener {
     }
 
     private void setzeKacheln(Kacheln tile) {
-        tile.setFarben();
+        tile.setFarben(tile.farben);
         xsend.farbe2(tile.x, tile.y, tile.farbe);
         xsend.text2(tile.x, tile.y, tile.getText());
         xsend.textFarbe2(tile.x, tile.y, tile.textFarbe);
@@ -131,10 +180,26 @@ public class Spiel implements KeyListener {
    
         return gameOver; // Kein Zug mehr möglich
     }
-
+    
+    private boolean hatBewegungStattgefunden(Kacheln[][] vorher, Kacheln[][] nachher) {
+        for (int i = 0; i < groesse; i++) {
+            for (int j = 0; j < groesse; j++) {
+                if (vorher[i][j].wert != nachher[i][j].wert) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        Kacheln[][] vorher = new Kacheln[groesse][groesse];
+        for (int i = 0; i < groesse; i++) {
+            for (int j = 0; j < groesse; j++) {
+                vorher[i][j] = new Kacheln(i, j, kacheln[i][j].wert);
+            }
+        }
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
             	bewegeLinks();
@@ -149,7 +214,9 @@ public class Spiel implements KeyListener {
                 bewegeRunter();
                 break;
         }
-        addRandomKachel(); // Füge nach jedem Zug eine neue Kachel hinzu
+        if (hatBewegungStattgefunden(vorher, kacheln)) {
+        	addRandomKachel();
+        }// Füge nach jedem Zug eine neue Kachel hinzu aber nur wenn sich auch etwas geändert hat
         updateSpielfeld();
         if (gewonnen()) {
         	xsend.statusText("Gewonnen");
