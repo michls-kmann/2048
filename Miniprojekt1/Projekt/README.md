@@ -17,7 +17,7 @@ Erweiterungen Michi:
 - Deutsche Methodennamen
 
 Erweiterungen Pascal:
-- 4 Klassen: Spiel, Spielfeld, Kacheln, GUI ausgelagert (Vererbung & Struktur)
+- 4 Klassen: Spiel, Spielfeld, Kacheln, GUI ausgelagert (Objektorientiert & Struktur)
 - Testspielstand eingebaut zum Prüfen wegen Sieg und Kacheln-Texte zu groß
 - Header-Kommentare für Dokumentation
 - Board-Design
