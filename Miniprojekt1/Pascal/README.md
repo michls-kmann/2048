@@ -26,3 +26,5 @@ Erweiterungen Pascal:
 - Spielstrategien-Menüpunkt (jedoch nur Platzhalter)
 - Generell hier und da Design verschönert
 - StatusText oben links vergrößert
+- Projektpräsentation
+  
