@@ -23,7 +23,7 @@ public class Spielfeld implements KeyListener {
 
     public void start() {
         baueSpielfeld();
-        //setzeTestSpielstand();  //Dies ist ein Spielstand der zu Testzwecken kurz vor dem Erreichen von 2048 ist. 
+        setzeTestSpielstand();  //Dies ist ein Spielstand der zu Testzwecken kurz vor dem Erreichen von 2048 ist. 
     }
 
     public void setGUI(GUI gui) { 

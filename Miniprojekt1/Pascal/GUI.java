@@ -119,7 +119,7 @@ public class GUI {
                         xsend.flaeche(0x848494);
                         xsend.rahmen(0x2b2b3b);
                         board.receiveMessage("graphicBorder 0xa0a0ac");
-                        Kacheln.LEERE_FARBE = 0xcdc1b4;
+                        Kacheln.LEERE_FARBE = 0xbfbfbf;
                         break;
                     case "THM":
                         xsend.flaeche(0x80ba24);
